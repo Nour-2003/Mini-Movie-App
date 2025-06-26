@@ -1,0 +1,319 @@
+/* Favorites Page Container */
+.favorites-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  color: #f8f9fa;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+/* Content Wrapper */
+.favorites-content {
+  position: relative;
+  z-index: 1;
+}
+/* Favorites Header Styles */
+.favorites-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+.cinema-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.favorites-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.8rem;
+  background: rgba(255, 50, 88, 0.15);
+  backdrop-filter: blur(5px);
+  border-radius: 30px;
+  color: #ff3258;
+  font-weight: 600;
+  margin-top: 1rem;
+  border: 1px solid rgba(255, 50, 88, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+/* Empty State Styles */
+.empty-favorites {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 2rem;
+}
+
+.empty-favorites h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.empty-favorites p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.empty-illustration {
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+.browse-button {
+  padding: 0.8rem 2rem;
+  background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.browse-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Movies Grid */
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.movie-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.movie-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.poster-container {
+  position: relative;
+  width: 100%;
+  padding-top: 150%;
+  overflow: hidden;
+}
+
+.poster-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.movie-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.movie-card:hover .movie-poster {
+  transform: scale(1.05);
+}
+
+.poster-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.rating-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  z-index: 2;
+}
+
+.high-rating {
+  background: #00b894;
+}
+
+.medium-rating {
+  background: #fdcb6e;
+  color: #2d3436;
+}
+
+.low-rating {
+  background: #d63031;
+}
+
+/* Card Overlay */
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 5;
+}
+
+.movie-card:hover .card-overlay {
+  opacity: 1;
+}
+
+.overlay-content {
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover .overlay-content {
+  transform: translateY(0);
+}
+
+.movie-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-year {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  color: white;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.remove-button {
+  background: rgba(255, 50, 88, 0.2);
+  border: 1px solid rgba(255, 50, 88, 0.4);
+}
+
+.remove-button:hover {
+  background: rgba(255, 50, 88, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .favorites-container {
+    padding: 1.5rem;
+  }
+
+  .cinema-title {
+    font-size: 2.5rem;
+  }
+
+  .movies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .empty-favorites {
+    padding: 3rem 1.5rem;
+  }
+
+  .empty-favorites h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .favorites-container {
+    padding: 1rem;
+  }
+
+  .cinema-title {
+    font-size: 2rem;
+  }
+
+  .movies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+
+  .card-overlay {
+    padding: 1rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-button {
+    justify-content: center;
+    padding: 0.5rem;
+  }
+}

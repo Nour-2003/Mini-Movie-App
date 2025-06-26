@@ -1,103 +1,93 @@
-import Image from "next/image";
+// app/page.tsx
+"use client";
+
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import "./styles/Home.css";
+import { ArrowIcon } from "./Icons/icons";
+
+/**
+ * Creates a single floating particle and appends it to the container.
+ */
+const createParticle = (container: Element) => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const particle = document.createElement("div");
+  particle.classList.add("particle");
+
+  const size = Math.random() * 10 + 5;
+  const posX = Math.random() * 100;
+  const posY = Math.random() * 100 + 100;
+  const opacity = Math.random() * 0.5 + 0.1;
+  const duration = Math.random() * 20 + 10;
+  const delay = Math.random() * -20;
+
+  particle.style.width = `${size}px`;
+  particle.style.height = `${size}px`;
+  particle.style.left = `${posX}%`;
+  particle.style.top = `${posY}%`;
+  particle.style.opacity = `${opacity}`;
+  particle.style.animationDuration = `${duration}s`;
+  particle.style.animationDelay = `${delay}s`;
+
+  container.appendChild(particle);
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const particlesRef = useRef<HTMLDivElement | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const container = particlesRef.current;
+    if (!container) return;
+    for (let i = 0; i < 30; i++) {
+      createParticle(container);
+    }
+  }, []);
+
+  return (
+    <div className="home-container">
+      {/* Floating particles background */}
+      <div className="particles" ref={particlesRef}></div>
+
+      <div className="hero-section">
+        <h1>Discover Your Next Favorite Movie</h1>
+        <p>
+          Explore thousands of films, curate your personal collection, and find
+          hidden gems tailored to your taste.
+        </p>
+        <Link
+          href="/movies"
+          className="cta-button"
+          aria-label="Start exploring movies"
+        >
+          Start Exploring
+          <ArrowIcon />
+        </Link>
+      </div>
+
+      <div className="features-section">
+        <div className="feature-card">
+          <h3>Popular Movies</h3>
+          <p>
+            Discover what's trending worldwide with our real-time popularity
+            rankings and curated editor's picks.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="feature-card">
+          <h3>Your Favorites</h3>
+          <p>
+            Save movies to your personal watchlist and get recommendations based
+            on your preferences.
+          </p>
+        </div>
+        <div className="feature-card">
+          <h3>Advanced Search</h3>
+          <p>
+            Filter by genre, year, rating, and more to find exactly what you're
+            in the mood for.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

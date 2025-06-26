@@ -1,0 +1,323 @@
+/* app/styles/Home.css */
+:root {
+  --primary: #00e0ff;
+  --primary-dark: #00b8d1;
+  --dark: #0a0a0a;
+  --darker: #050505;
+  --light: #ffffff;
+  --gray: #aaaaaa;
+  --dark-gray: #222222;
+}
+
+.home-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Hero Section - Cinematic Effect */
+.hero-section {
+  position: relative;
+  text-align: center;
+  padding: 8rem 2rem;
+  margin-bottom: 4rem;
+  color: var(--light);
+  isolation: isolate;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+      circle at 75% 30%,
+      rgba(0, 224, 255, 0.15) 0%,
+      transparent 50%
+    ),
+    linear-gradient(to bottom, var(--darker), var(--dark));
+  z-index: -2;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop")
+    center/cover;
+  opacity: 0.25;
+  z-index: -1;
+  mix-blend-mode: overlay;
+}
+
+.hero-section h1 {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--light), var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero-section p {
+  font-size: 1.4rem;
+  margin-bottom: 3rem;
+  max-width: 700px;
+  opacity: 0.9;
+  animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+/* CTA Button - Glow Effect */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.2rem 3rem;
+  background-color: var(--primary);
+  color: var(--dark);
+  border-radius: 50px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  font-size: 1.1rem;
+  box-shadow: 0 0 15px rgba(0, 224, 255, 0.5);
+  animation: fadeInUp 1s ease-out 0.4s both;
+}
+
+.cta-button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    transparent 45%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 55%
+  );
+  transform: rotate(30deg);
+  transition: all 0.6s ease;
+}
+
+.cta-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 224, 255, 0.6);
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.cta-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Features Section - 3D Card Effect */
+.features-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  padding: 0 2rem 4rem;
+  perspective: 1000px;
+}
+
+.feature-card {
+  background: rgba(20, 20, 20, 0.6);
+  padding: 2.5rem;
+  border-radius: 16px;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transform-style: preserve-3d;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 224, 255, 0.15) 0%,
+    transparent 50%,
+    rgba(0, 224, 255, 0.15) 100%
+  );
+  z-index: -1;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+  box-shadow: 0 15px 45px rgba(0, 224, 255, 0.2);
+  border-color: rgba(0, 224, 255, 0.3);
+}
+
+.feature-card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: var(--light);
+  position: relative;
+  display: inline-block;
+}
+
+.feature-card h3::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.feature-card:hover h3::after {
+  width: 100%;
+}
+
+.feature-card p {
+  color: var(--gray);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Feature Icons */
+.feature-card:nth-child(1)::after {
+  content: "🎬";
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 2.5rem;
+  opacity: 0.2;
+}
+
+.feature-card:nth-child(2)::after {
+  content: "❤️";
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 2.5rem;
+  opacity: 0.2;
+}
+
+.feature-card:nth-child(3)::after {
+  content: "🔍";
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 2.5rem;
+  opacity: 0.2;
+}
+
+/* Floating Particles Background */
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(0, 224, 255, 0.5);
+  border-radius: 50%;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero-section h1 {
+    font-size: 3rem;
+  }
+
+  .hero-section p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 6rem 1.5rem;
+    min-height: 70vh;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .features-section {
+    grid-template-columns: 1fr;
+    padding: 0 1.5rem 3rem;
+  }
+
+  .cta-button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 4rem 1rem;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+  }
+}
