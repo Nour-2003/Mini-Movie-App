@@ -14,15 +14,8 @@ import {
   CastIcon,
   CastPlaceHolder,
 } from "@/app/Icons/icons";
-import React from "react";
 
-interface Actor {
-  id: number;
-  name: string;
-  character: string;
-  profile_path: string | null;
-}
-
+// Type definitions
 interface Movie {
   id: number;
   title: string;
@@ -45,14 +38,25 @@ interface Credits {
   cast: Actor[];
 }
 
+interface Actor {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+}
+
 interface Video {
   key: string;
   type: string;
   official: boolean;
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  // Use React.use to safely access params
+interface PageProps {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export async function generateMetadata({ params }: PageProps) {
   const { id } = await params;
   const movie = await fetchMovie(id);
 
