@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useSearchStore } from "../store/SearchContext";
+import { Movie, useSearchStore } from "../store/SearchContext";
 import { useFavoriteStore } from "../store/favoriteContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "../components/Card Modules/Card";
@@ -59,7 +59,7 @@ export default function Movies() {
     show: { opacity: 1, y: 0 },
   };
 
-  const handleFavoriteToggle = (movie: any) => {
+  const handleFavoriteToggle = (movie: Movie) => {
     if (isFavorite(movie.id)) {
       removeFavorite(movie.id);
     } else {

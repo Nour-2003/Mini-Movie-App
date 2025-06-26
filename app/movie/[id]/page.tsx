@@ -14,6 +14,12 @@ import {
   CastIcon,
   CastPlaceHolder,
 } from "@/app/Icons/icons";
+interface Actor {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+}
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const movie = await fetchMovie(params.id);
@@ -87,7 +93,8 @@ export default async function MovieDetailsPage({
   );
   const topCast = credits.cast.slice(0, 8);
   const trailer = videos?.results?.find(
-    (video: any) => video.type === "Trailer" && video.official
+    (video: { type: string; official: boolean }) =>
+      video.type === "Trailer" && video.official
   );
 
   const formatRuntime = (minutes: number) => {
@@ -243,7 +250,7 @@ export default async function MovieDetailsPage({
                 <CastIcon /> Top Cast
               </h2>
               <div className="cast-grid">
-                {topCast.map((actor: any) => (
+                {topCast.map((actor: Actor) => (
                   <div key={actor.id} className="cast-card">
                     {actor.profile_path ? (
                       <Image
