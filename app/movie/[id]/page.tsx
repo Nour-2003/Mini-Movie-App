@@ -14,6 +14,8 @@ import {
   CastIcon,
   CastPlaceHolder,
 } from "@/app/Icons/icons";
+import React from "react";
+
 interface Actor {
   id: number;
   name: string;
@@ -21,20 +23,58 @@ interface Actor {
   profile_path: string | null;
 }
 
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  genres: { id: number; name: string }[];
+  poster_path: string | null;
+  backdrop_path: string | null;
+  runtime: number;
+  vote_average: number;
+  release_date: string;
+  tagline: string;
+}
+
+interface Credits {
+  crew: {
+    job: string;
+    name: string;
+    profile_path: string | null;
+  }[];
+  cast: Actor[];
+}
+
+interface Video {
+  key: string;
+  type: string;
+  official: boolean;
+}
+
 export async function generateMetadata({ params }: { params: { id: string } }) {
-  const movie = await fetchMovie(params.id);
+  // Use React.use to safely access params
+  const { id } = await params;
+  const movie = await fetchMovie(id);
+
+  if (!movie) {
+    return {
+      title: "Movie Not Found | CineVerse",
+      description: "The movie you're looking for doesn't exist.",
+    };
+  }
+
   return {
-    title: `${movie?.title || "Movie"} | CineVerse`,
-    description: movie?.overview || "Discover movie details",
+    title: `${movie.title} | CineVerse`,
+    description: movie.overview || "Discover movie details",
     openGraph: {
-      images: movie?.backdrop_path
+      images: movie.backdrop_path
         ? [`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`]
         : [],
     },
   };
 }
 
-async function fetchMovie(id: string) {
+async function fetchMovie(id: string): Promise<Movie | null> {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`,
@@ -44,7 +84,7 @@ async function fetchMovie(id: string) {
   return res.json();
 }
 
-async function fetchCredits(id: string) {
+async function fetchCredits(id: string): Promise<Credits | null> {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`,
@@ -54,7 +94,7 @@ async function fetchCredits(id: string) {
   return res.json();
 }
 
-async function fetchVideos(id: string) {
+async function fetchVideos(id: string): Promise<{ results: Video[] } | null> {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}`,
@@ -69,10 +109,14 @@ export default async function MovieDetailsPage({
 }: {
   params: { id: string };
 }) {
+  // First destructure params
+  const { id } = await params;
+
+  // Then fetch all data
   const [movie, credits, videos] = await Promise.all([
-    fetchMovie(params.id),
-    fetchCredits(params.id),
-    fetchVideos(params.id),
+    fetchMovie(id),
+    fetchCredits(id),
+    fetchVideos(id),
   ]);
 
   if (!movie || !credits) return notFound();
@@ -88,13 +132,12 @@ export default async function MovieDetailsPage({
     release_date,
     tagline,
   } = movie;
-  const director = credits.crew.find(
-    (person: { job: string }) => person.job === "Director"
-  );
+
+  const director = credits.crew.find((person) => person.job === "Director");
+
   const topCast = credits.cast.slice(0, 8);
   const trailer = videos?.results?.find(
-    (video: { type: string; official: boolean }) =>
-      video.type === "Trailer" && video.official
+    (video) => video.type === "Trailer" && video.official
   );
 
   const formatRuntime = (minutes: number) => {
@@ -109,10 +152,12 @@ export default async function MovieDetailsPage({
       <div className="hero-section">
         {backdrop_path ? (
           <div className="backdrop-container">
-            <img
+            <Image
               src={`https://image.tmdb.org/t/p/w1280${backdrop_path}`}
               alt={title}
+              fill
               className="backdrop-image"
+              priority
             />
             <div className="backdrop-overlay" />
           </div>
@@ -123,10 +168,13 @@ export default async function MovieDetailsPage({
         <div className="hero-content">
           <div className="poster-detail-container">
             {poster_path ? (
-              <img
+              <Image
                 src={`https://image.tmdb.org/t/p/w500${poster_path}`}
                 alt={title}
+                width={500}
+                height={750}
                 className="movie-poster-detail"
+                priority
               />
             ) : (
               <div
@@ -162,7 +210,7 @@ export default async function MovieDetailsPage({
             </div>
 
             <div className="genres-section">
-              {genres.map((genre: { id: number; name: string }) => (
+              {genres.map((genre) => (
                 <span key={genre.id} className="genre-badge">
                   {genre.name}
                 </span>
@@ -212,6 +260,7 @@ export default async function MovieDetailsPage({
                 </div>
               </section>
             )}
+
             {/* Trailer Section */}
             {trailer ? (
               <section className="trailer-section" aria-label="Movie Trailer">
@@ -250,7 +299,7 @@ export default async function MovieDetailsPage({
                 <CastIcon /> Top Cast
               </h2>
               <div className="cast-grid">
-                {topCast.map((actor: Actor) => (
+                {topCast.map((actor) => (
                   <div key={actor.id} className="cast-card">
                     {actor.profile_path ? (
                       <Image
