@@ -98,9 +98,9 @@ http://localhost:3000
 - [x] Trailer embedding on details page  
 - [x] Framer motion transitions  
 - [x] Zustand devtools integration  
-- [] Theme switcher (light/dark mode)  
-- [] Advanced filtering & genre sorting  
-- [] Pagination or infinite scroll
+- [ ] Theme switcher (light/dark mode)  
+- [ ] Advanced filtering & genre sorting  
+- [ ] Pagination or infinite scroll
 
 ---
 
