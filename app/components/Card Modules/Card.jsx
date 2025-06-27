@@ -17,9 +17,10 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
   const [isLoadingTrailer, setIsLoadingTrailer] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const [showActions, setShowActions] = useState(false);
   const cardRef = useRef(null);
 
+  // Detect mobile on mount and resize
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -28,7 +29,7 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
     window.addEventListener("resize", checkIfMobile);
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
-
+  
   // Intersection Observer for lazy loading
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -92,7 +93,7 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
   const handleCardClick = (e) => {
     if (isMobile) {
       e.preventDefault();
-      setIsActive(!isActive);
+      setShowActions(!showActions);
     }
   };
 
@@ -109,97 +110,98 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
   };
 
   return (
-    <div
-      className="poster-container"
-      ref={cardRef}
-      onClick={isMobile ? handleCardClick : undefined}
-    >
+    <div className="poster-container" ref={cardRef}>
       {isInView ? (
         <>
           <div className="poster-wrapper">
-            <Link
-              href={`/movie/${movie.id}`}
-              className="poster-link"
-              onClick={isMobile ? undefined : handleDetailsNavigation}
+            {/* Changed to div wrapper with onClick for mobile */}
+            <div
+              className="poster-click-area"
+              onClick={isMobile ? handleCardClick : undefined}
             >
-              {movie.poster_path ? (
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  className="movie-poster"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="poster-placeholder">
-                  <FilmIcon />
+              <Link
+                href={`/movie/${movie.id}`}
+                className="poster-link"
+                onClick={(e) => isMobile && e.preventDefault()}
+              >
+                {movie.poster_path ? (
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    className="movie-poster"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="poster-placeholder">
+                    <FilmIcon />
+                  </div>
+                )}
+                <div
+                  className={`rating-badge ${
+                    movie.vote_average > 7
+                      ? "high-rating"
+                      : movie.vote_average > 5
+                      ? "medium-rating"
+                      : "low-rating"
+                  }`}
+                >
+                  {movie.vote_average?.toFixed(1) ?? "N/A"}
+                </div>
+              </Link>
+            </div>
+
+            <AnimatePresence>
+              {(isHovered === movie.id || (isMobile && showActions)) && (
+                <div className="card-overlay">
+                  <motion.div
+                    className="overlay-content"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <h3 className="movie-card-title">{movie.title}</h3>
+                    <p className="movie-year">
+                      {movie.release_date?.split("-")[0] || "N/A"}
+                    </p>
+                    <div className="action-buttons">
+                      <button
+                        className="action-button"
+                        onClick={handlePlayTrailer}
+                      >
+                        <PlayIcon />
+                        <span>Trailer</span>
+                      </button>
+                      <button
+                        className="action-button"
+                        onClick={handleFavoriteClick}
+                      >
+                        {isFavorite ? (
+                          <>
+                            <HeartFilledIcon />
+                            <span>Unfavorite</span>
+                          </>
+                        ) : (
+                          <>
+                            <HeartIcon />
+                            <span>Favorite</span>
+                          </>
+                        )}
+                      </button>
+                      {isMobile && (
+                        <Link
+                          href={`/movie/${movie.id}`}
+                          className="action-button details-button"
+                        >
+                          View Details
+                        </Link>
+                      )}
+                    </div>
+                  </motion.div>
                 </div>
               )}
-              <div
-                className={`rating-badge ${
-                  movie.vote_average > 7
-                    ? "high-rating"
-                    : movie.vote_average > 5
-                    ? "medium-rating"
-                    : "low-rating"
-                }`}
-              >
-                {movie.vote_average?.toFixed(1) ?? "N/A"}
-              </div>
-            </Link>
+            </AnimatePresence>
           </div>
-
-          <AnimatePresence>
-            {(isHovered === movie.id || (isMobile && isActive)) && (
-              <div className="card-overlay">
-                <motion.div
-                  className="overlay-content"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                >
-                  <h3 className="movie-card-title">{movie.title}</h3>
-                  <p className="movie-year">
-                    {movie.release_date?.split("-")[0] || "N/A"}
-                  </p>
-                  <div className="action-buttons">
-                    <button
-                      className="action-button"
-                      onClick={handlePlayTrailer}
-                    >
-                      <PlayIcon />
-                      <span>Trailer</span>
-                    </button>
-                    <button
-                      className="action-button"
-                      onClick={handleFavoriteClick}
-                    >
-                      {isFavorite ? (
-                        <>
-                          <HeartFilledIcon />
-                          <span>Unfavorite</span>
-                        </>
-                      ) : (
-                        <>
-                          <HeartIcon />
-                          <span>Favorite</span>
-                        </>
-                      )}
-                    </button>
-                    {isMobile && (
-                      <button
-                        className="action-button details-button"
-                        onClick={() =>
-                          (window.location.href = `/movie/${movie.id}`)
-                        }
-                      >
-                        View Details
-                      </button>
-                    )}
-                  </div>
-                </motion.div>
-              </div>
-            )}
-          </AnimatePresence>
         </>
       ) : (
         <div className="poster-placeholder">

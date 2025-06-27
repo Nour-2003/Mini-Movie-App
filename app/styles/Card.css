@@ -64,12 +64,8 @@
   background: #d63031;
 }
 .poster-link {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  display: block;
   height: 100%;
-  z-index: 2;
 }
 /* Card Overlay */
 .card-overlay {
@@ -130,7 +126,11 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-
+.poster-click-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 .action-button:hover {
   background: rgba(255, 255, 255, 0.2);
 }
@@ -149,15 +149,26 @@
   .poster-container {
     cursor: pointer;
   }
-
+  .poster-click-area {
+    cursor: pointer;
+  }
   .card-overlay {
     pointer-events: auto;
   }
 
   .details-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
     background: rgba(0, 210, 255, 0.2);
     border: 1px solid rgba(0, 210, 255, 0.4);
-    margin-top: 0.5rem;
+    color: white;
+    font-size: 0.8rem;
+    text-decoration: none;
+    text-align: center;
   }
 
   .details-button:hover {
@@ -216,11 +227,17 @@
   }
 }
 @media (min-width: 769px) {
-  .poster-link {
-    display: block;
-    height: 100%;
+  .poster-click-area {
+    pointer-events: none;
   }
 
+  .poster-link {
+    pointer-events: auto;
+  }
+
+  .details-button {
+    display: none;
+  }
   .card-overlay {
     pointer-events: none;
   }
