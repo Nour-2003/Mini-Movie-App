@@ -2,13 +2,13 @@
 
 A sleek and responsive movie browsing experience built with **Next.js 14**, **Zustand**, and **The Movie Database (TMDb) API**. Users can browse, search, view details, and favorite movies with smooth transitions and optimized performance.
 
-[![Vercel Deployment](https://vercelbadge.vercel.app/api/NourHesham12/mini-movie-app)][(https://mini-movie-app-brown.vercel.app](https://mini-movie-app-brown.vercel.app/)
+[![Vercel Deployment](https://vercelbadge.vercel.app/api/NourHesham12/mini-movie-app)](https://mini-movie-app-brown.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-14-blue.svg?logo=next.js)](https://nextjs.org/)
 [![Zustand](https://img.shields.io/badge/Zustand-State_Management-orange.svg)](https://github.com/pmndrs/zustand)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 🌐 **Live Demo**  
-🔗 https://mini-movie-app-brown.vercel.app/favorites
+🔗 https://mini-movie-app-brown.vercel.app
 
 ---
 
@@ -62,7 +62,7 @@ A sleek and responsive movie browsing experience built with **Next.js 14**, **Zu
 ### 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Nour-2003/Mini-Movie-App.git
+git clone https://github.com/your-username/mini-movie-app.git
 cd mini-movie-app
 ```
 
@@ -97,7 +97,7 @@ http://localhost:3000
 
 - [✓] Trailer embedding on details page  
 - [✓] Framer motion transitions  
-- [✓] Zustand devtools integration
+- [✓] Zustand devtools integration  
 - [x] Theme switcher (light/dark mode)  
 - [x] Advanced filtering & genre sorting  
 - [x] Pagination or infinite scroll
