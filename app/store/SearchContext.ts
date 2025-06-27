@@ -1,30 +1,7 @@
 // stores/useSearchStore.ts
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-
-/**
- * Movie model used across the app.
- */
-export interface Movie {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  release_date: string;
-  vote_average: number;
-}
-
-/**
- * Zustand store interface for managing movie search state.
- */
-interface SearchState {
-  query: string;
-  movies: Movie[];
-  isLoading: boolean;
-  searched: boolean;
-  setQuery: (query: string) => void;
-  searchMovies: () => Promise<void>;
-  loadPopularMovies: () => Promise<void>;
-}
+import { SearchState,Movie} from "./interfaces";
 
 /**
  * Zustand store for handling search functionality.
@@ -39,10 +16,10 @@ export const useSearchStore = create<SearchState>()(
         isLoading: false,
         searched: false,
 
-        // Updates the search query
+
         setQuery: (query) => set({ query }, false, "setQuery"),
 
-        // Fetches movies based on current query
+
         searchMovies: async () => {
           const { query } = get();
           if (!query) return;
@@ -64,7 +41,7 @@ export const useSearchStore = create<SearchState>()(
           }
         },
 
-        // Loads popular movies (default fallback)
+
         loadPopularMovies: async () => {
           set({ isLoading: true }, false, "loadPopularMovies:start");
 
@@ -86,8 +63,8 @@ export const useSearchStore = create<SearchState>()(
         },
       }),
       {
-        name: "search-store", // LocalStorage key for persisting state
-        partialize: (state) => ({ query: state.query }), // Persist only the query
+        name: "search-store", 
+        partialize: (state) => ({ query: state.query }), 
       }
     )
   )

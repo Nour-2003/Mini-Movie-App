@@ -1,14 +1,28 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useFavoriteStore } from "../store/favoriteContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { HeartFilledIcon, FilmIcon } from "../Icons/icons";
-import { Movie } from "../store/SearchContext";
+import { Movie } from "../store/interfaces";
 import "../styles/Favorite.css";
+import { useEffect, useState } from "react";
 
 export default function FavoritesPage() {
   const { favorites, removeFavorite } = useFavoriteStore();
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
 
   const container = {
     hidden: { opacity: 0 },
@@ -23,9 +37,20 @@ export default function FavoritesPage() {
     show: { opacity: 1, y: 0 },
   };
 
+  const handleRemoveFavorite = (e: React.MouseEvent, movieId: number) => {
+    e.stopPropagation();
+    removeFavorite(movieId);
+    setActiveCard(null);
+  };
+
+  const toggleCardActive = (movieId: number) => {
+    if (!isMobile) return;
+    setActiveCard(activeCard === movieId ? null : movieId);
+  };
+
   return (
     <main className="favorites-page" aria-label="Favorites Page">
-      {/* Header */}
+      {/* Header (keep existing header code) */}
       <motion.header
         className="favorites-header"
         initial={{ opacity: 0, y: -20 }}
@@ -52,20 +77,7 @@ export default function FavoritesPage() {
             transition={{ duration: 0.8 }}
             aria-label="No favorites yet"
           >
-            <div className="empty-illustration">
-              <HeartFilledIcon size={80} color="#ff3258" animated={false} />
-            </div>
-            <h2>Your heart is empty... for now</h2>
-            <p>Start adding movies to your favorites collection</p>
-            <motion.button
-              className="browse-button"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => (window.location.href = "/movies")}
-              aria-label="Browse movies"
-            >
-              Browse Movies
-            </motion.button>
+            {/* Keep empty state content */}
           </motion.section>
         ) : (
           <motion.section
@@ -82,46 +94,54 @@ export default function FavoritesPage() {
                   className="movie-card"
                   variants={item}
                   layout
-                  whileHover={{ y: -10, zIndex: 10 }}
+                  whileHover={{ y: isMobile ? 0 : -10, zIndex: 10 }}
                   aria-label={`Favorite movie: ${movie.title}`}
+                  onClick={() => toggleCardActive(movie.id)}
                 >
                   <div className="poster-container">
-                    <div className="poster-wrapper">
-                      {movie.poster_path ? (
-                        <Image
-                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                          alt={movie.title}
-                          width={300}
-                          height={450}
-                          className="movie-poster"
-                          loading="lazy"
-                        />
-                      ) : (
+                    <Link href={`/movie/${movie.id}`} className="poster-link">
+                      <div className="poster-wrapper">
+                        {movie.poster_path ? (
+                          <Image
+                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            alt={movie.title}
+                            width={300}
+                            height={450}
+                            className="movie-poster"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div
+                            className="poster-placeholder"
+                            aria-label="No poster available"
+                          >
+                            <FilmIcon />
+                          </div>
+                        )}
+
                         <div
-                          className="poster-placeholder"
-                          aria-label="No poster available"
+                          className={`rating-badge ${
+                            movie.vote_average > 7
+                              ? "high-rating"
+                              : movie.vote_average > 5
+                              ? "medium-rating"
+                              : "low-rating"
+                          }`}
+                          aria-label={`Rating: ${movie.vote_average.toFixed(
+                            1
+                          )} out of 10`}
                         >
-                          <FilmIcon />
+                          {movie.vote_average.toFixed(1)}
                         </div>
-                      )}
-
-                      <div
-                        className={`rating-badge ${
-                          movie.vote_average > 7
-                            ? "high-rating"
-                            : movie.vote_average > 5
-                            ? "medium-rating"
-                            : "low-rating"
-                        }`}
-                        aria-label={`Rating: ${movie.vote_average.toFixed(
-                          1
-                        )} out of 10`}
-                      >
-                        {movie.vote_average.toFixed(1)}
                       </div>
-                    </div>
+                    </Link>
 
-                    <div className="card-overlay">
+                    <div
+                      className={`card-favorite-overlay ${
+                        activeCard === movie.id ? "active" : ""
+                      }`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <div className="overlay-content">
                         <h3 className="movie-title">{movie.title}</h3>
                         <p className="movie-year">
@@ -130,7 +150,7 @@ export default function FavoritesPage() {
                         <div className="action-buttons">
                           <button
                             className="action-button remove-button"
-                            onClick={() => removeFavorite(movie.id)}
+                            onClick={(e) => handleRemoveFavorite(e, movie.id)}
                             aria-label={`Remove ${movie.title} from favorites`}
                           >
                             <HeartFilledIcon size={18} />

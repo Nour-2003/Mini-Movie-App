@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { Movie } from "./SearchContext";
+import { Movie } from "../store/interfaces";
 
 type FavoriteStore = {
   favorites: Movie[];
@@ -11,7 +11,7 @@ type FavoriteStore = {
 
 export const useFavoriteStore = create<FavoriteStore>()(
   devtools(
-    persist(      
+    persist(
       (set, get) => ({
         favorites: [],
 
@@ -39,8 +39,8 @@ export const useFavoriteStore = create<FavoriteStore>()(
         },
       }),
       {
-        name: "favorite-movies", 
-        partialize: (state) => ({ favorites: state.favorites }), 
+        name: "favorite-movies",
+        partialize: (state) => ({ favorites: state.favorites }),
       }
     )
   )

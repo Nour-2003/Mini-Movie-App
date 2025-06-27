@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Toaster, toast } from "sonner";
+import Link from "next/link";
 import {
   FilmIcon,
   PlayIcon,
@@ -14,7 +15,6 @@ import "../../styles/Card.css";
 export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
   const [trailerKey, setTrailerKey] = useState(null);
   const [isLoadingTrailer, setIsLoadingTrailer] = useState(false);
-  const [showNoTrailer, setShowNoTrailer] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const cardRef = useRef(null);
 
@@ -45,7 +45,7 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
     };
   }, []);
 
-  // Fetch trailer only when card is in view
+
   useEffect(() => {
     if (!isInView) return;
 
@@ -71,52 +71,72 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
 
   const handlePlayTrailer = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     if (trailerKey) {
       window.open(`https://www.youtube.com/watch?v=${trailerKey}`, "_blank");
     } else {
       toast.error("Trailer not available.");
     }
   };
+  const handleFavoriteClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onFavoriteToggle(movie);
+  };
 
-  return (
+ return (
     <div className="poster-container" ref={cardRef}>
       {isInView ? (
         <>
-          <div className="poster-wrapper">
-            {movie.poster_path ? (
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                className="movie-poster"
-                loading="lazy"
-              />
-            ) : (
-              <div className="poster-placeholder">
-                <FilmIcon />
+          <Link 
+            href={`/movie/${movie.id}`} 
+            className="poster-link"
+            onClick={(e) => {
+              if (
+                e.target &&
+                typeof e.target.closest === "function" &&
+                e.target.closest(".action-button")
+              ) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <div className="poster-wrapper">
+              {movie.poster_path ? (
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  className="movie-poster"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="poster-placeholder">
+                  <FilmIcon />
+                </div>
+              )}
+              <div
+                className={`rating-badge ${
+                  movie.vote_average > 7
+                    ? "high-rating"
+                    : movie.vote_average > 5
+                    ? "medium-rating"
+                    : "low-rating"
+                }`}
+              >
+                {movie.vote_average?.toFixed(1) ?? "N/A"}
               </div>
-            )}
-            <div
-              className={`rating-badge ${
-                movie.vote_average > 7
-                  ? "high-rating"
-                  : movie.vote_average > 5
-                  ? "medium-rating"
-                  : "low-rating"
-              }`}
-            >
-              {movie.vote_average?.toFixed(1) ?? "N/A"}
             </div>
-          </div>
+          </Link>
 
           <AnimatePresence>
             {isHovered === movie.id && (
-              <motion.div
-                className="card-overlay"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <div className="overlay-content">
+              <div className="card-overlay">
+                <motion.div
+                  className="overlay-content"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                >
                   <h3 className="movie-card-title">{movie.title}</h3>
                   <p className="movie-year">
                     {movie.release_date?.split("-")[0] || "N/A"}
@@ -131,10 +151,7 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
                     </button>
                     <button
                       className="action-button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onFavoriteToggle(movie);
-                      }}
+                      onClick={handleFavoriteClick}
                     >
                       {isFavorite ? (
                         <>
@@ -149,8 +166,8 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
                       )}
                     </button>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             )}
           </AnimatePresence>
         </>

@@ -14,43 +14,7 @@ import {
   CastIcon,
   CastPlaceHolder,
 } from "@/app/Icons/icons";
-
-// Type definitions
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  genres: { id: number; name: string }[];
-  poster_path: string | null;
-  backdrop_path: string | null;
-  runtime: number;
-  vote_average: number;
-  release_date: string;
-  tagline: string;
-}
-
-interface Credits {
-  crew: {
-    job: string;
-    name: string;
-    profile_path: string | null;
-  }[];
-  cast: Actor[];
-}
-
-interface Actor {
-  id: number;
-  name: string;
-  character: string;
-  profile_path: string | null;
-}
-
-interface Video {
-  key: string;
-  type: string;
-  official: boolean;
-}
-
+import { Movie, Credits, Video } from "../../store/interfaces";
 export async function generateMetadata({
   params,
 }: {
@@ -152,7 +116,7 @@ export default async function MovieDetailsPage({
   return (
     <div className="movie-page">
       {/* Hero Section with Backdrop */}
-      <div className="hero-section">
+      <div className="hero-details-section">
         {backdrop_path ? (
           <div className="backdrop-container">
             <Image

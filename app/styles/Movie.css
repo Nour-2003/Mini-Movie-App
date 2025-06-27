@@ -217,7 +217,7 @@
   border-color: #00d2ff;
 }
 
-/* Movies Grid */
+
 .movies-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -238,7 +238,7 @@
   height: 100%;
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 768px) {
   .cinema-container {
     padding: 1.5rem;

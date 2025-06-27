@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Movie, useSearchStore } from "../store/SearchContext";
+import { useSearchStore } from "../store/SearchContext";
+import { Movie } from "../store/interfaces";
 import { useFavoriteStore } from "../store/favoriteContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "../components/Card Modules/Card";
 import { SearchIcon, FilmReelIcon, BinocularsIcon } from "../Icons/icons";
-import Link from "next/link";
+
 import "../styles/Movie.css";
 
 export default function Movies() {
@@ -45,7 +46,6 @@ export default function Movies() {
     });
   }, [movies, sortValue]);
 
-  // 🎬 Animation variants
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -69,7 +69,7 @@ export default function Movies() {
 
   return (
     <div className="cinema-container">
-      {/* 🔍 Search Header */}
+      {/*Search Header */}
       <div className="search-header">
         <motion.h1
           className="cinema-title"
@@ -104,7 +104,7 @@ export default function Movies() {
         </motion.div>
       </div>
 
-      {/* 🎥 Content Area */}
+      {/*Content Area*/}
       <div className="content-container">
         {!searched ? (
           <motion.div
@@ -185,24 +185,12 @@ export default function Movies() {
                     onHoverStart={() => setIsHovered(movie.id)}
                     onHoverEnd={() => setIsHovered(null)}
                   >
-                    <Link
-                      href={`/movie/${movie.id}`}
-                      className="movie-card-link"
-                      onClick={(e) => {
-                        if (
-                          (e.target as HTMLElement).closest(".action-button")
-                        ) {
-                          e.preventDefault();
-                        }
-                      }}
-                    >
-                      <Card
-                        movie={movie}
-                        isHovered={isHovered}
-                        onFavoriteToggle={() => handleFavoriteToggle(movie)}
-                        isFavorite={isFavorite(movie.id)}
-                      />
-                    </Link>
+                    <Card
+                      movie={movie}
+                      isHovered={isHovered}
+                      onFavoriteToggle={handleFavoriteToggle}
+                      isFavorite={isFavorite(movie.id)}
+                    />
                   </motion.div>
                 ))}
               </AnimatePresence>
