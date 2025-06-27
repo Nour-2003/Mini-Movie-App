@@ -120,7 +120,7 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
             <Link
               href={`/movie/${movie.id}`}
               className="poster-link"
-              onClick={isMobile ? handleDetailsNavigation : undefined}
+              onClick={isMobile ? undefined : handleDetailsNavigation}
             >
               {movie.poster_path ? (
                 <img
