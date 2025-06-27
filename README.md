@@ -8,7 +8,7 @@ A sleek and responsive movie browsing experience built with **Next.js 14**, **Zu
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 🌐 **Live Demo**  
-🔗 [https://mini-movie-app-brown.vercel.app](https://mini-movie-qa2yixen5-nour-2003s-projects.vercel.app/)
+🔗 [[https://mini-movie-app-brown.vercel.app](https://mini-movie-app-sage.vercel.app/)]
 
 ---
 
