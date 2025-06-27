@@ -2,7 +2,7 @@
 
 A sleek and responsive movie browsing experience built with **Next.js 14**, **Zustand**, and **The Movie Database (TMDb) API**. Users can browse, search, view details, and favorite movies with smooth transitions and optimized performance.
 
-[![Vercel Deployment](https://vercelbadge.vercel.app/api/NourHesham12/mini-movie-app)](https://mini-movie-app-brown.vercel.app)
+[![Vercel Deployment](https://vercelbadge.vercel.app/api/NourHesham12/mini-movie-app)][(https://mini-movie-app-brown.vercel.app](https://mini-movie-app-brown.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-14-blue.svg?logo=next.js)](https://nextjs.org/)
 [![Zustand](https://img.shields.io/badge/Zustand-State_Management-orange.svg)](https://github.com/pmndrs/zustand)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
