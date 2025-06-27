@@ -51,31 +51,31 @@ interface Video {
   official: boolean;
 }
 
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: Promise<{ id: string }>;
-// }) {
-//   const { id } = await params;
-//   const movie = await fetchMovie(id);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const movie = await fetchMovie(id);
 
-//   if (!movie) {
-//     return {
-//       title: "Movie Not Found | CineVerse",
-//       description: "The movie you're looking for doesn't exist.",
-//     };
-//   }
+  if (!movie) {
+    return {
+      title: "Movie Not Found | CineVerse",
+      description: "The movie you're looking for doesn't exist.",
+    };
+  }
 
-//   return {
-//     title: `${movie.title} | CineVerse`,
-//     description: movie.overview || "Discover movie details",
-//     openGraph: {
-//       images: movie.backdrop_path
-//         ? [`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`]
-//         : [],
-//     },
-//   };
-// }
+  return {
+    title: `${movie.title} | CineVerse`,
+    description: movie.overview || "Discover movie details",
+    openGraph: {
+      images: movie.backdrop_path
+        ? [`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`]
+        : [],
+    },
+  };
+}
 
 async function fetchMovie(id: string): Promise<Movie | null> {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
@@ -110,7 +110,7 @@ async function fetchVideos(id: string): Promise<{ results: Video[] } | null> {
 export default async function MovieDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   // First destructure params
   const { id } = await params;
