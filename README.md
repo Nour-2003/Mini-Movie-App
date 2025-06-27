@@ -8,7 +8,7 @@ A sleek and responsive movie browsing experience built with **Next.js 14**, **Zu
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 🌐 **Live Demo**  
-🔗 https://mini-movie-app-brown.vercel.app
+🔗 [https://mini-movie-app-brown.vercel.app](https://mini-movie-qa2yixen5-nour-2003s-projects.vercel.app/)
 
 ---
 
@@ -95,20 +95,15 @@ http://localhost:3000
 
 ## ✅ Roadmap
 
-- [✓] Trailer embedding on details page  
-- [✓] Framer motion transitions  
-- [✓] Zustand devtools integration  
-- [x] Theme switcher (light/dark mode)  
-- [x] Advanced filtering & genre sorting  
-- [x] Pagination or infinite scroll
+- [x] Trailer embedding on details page  
+- [x] Framer motion transitions  
+- [x] Zustand devtools integration  
+- [ ] Theme switcher (light/dark mode)  
+- [ ] Advanced filtering & genre sorting  
+- [ ] Pagination or infinite scroll
 
 ---
 
-## 🔒 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
 
 ## 🙌 Credits
 
