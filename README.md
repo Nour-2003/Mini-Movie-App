@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 Mini Movie App
 
-## Getting Started
+A sleek and responsive movie browsing experience built with **Next.js 14**, **Zustand**, and **The Movie Database (TMDb) API**. Users can browse, search, view details, and favorite movies with smooth transitions and optimized performance.
 
-First, run the development server:
+[![Vercel Deployment](https://vercelbadge.vercel.app/api/NourHesham12/mini-movie-app)](https://mini-movie-app-brown.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-14-blue.svg?logo=next.js)](https://nextjs.org/)
+[![Zustand](https://img.shields.io/badge/Zustand-State_Management-orange.svg)](https://github.com/pmndrs/zustand)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+🌐 **Live Demo**  
+🔗 https://mini-movie-app-brown.vercel.app
+
+---
+
+## 🚀 Features
+
+- 🔍 **Real-time Movie Search** with Debounce  
+- ❤️ **Favorite Movies** with Persistence using Zustand + localStorage  
+- 📽️ **Movie Details Page** with Director, Cast, and Official Trailer  
+- 🎨 **Animated UI** using Framer Motion  
+- ⚙️ **Lazy Loading** and Intersection Observer for Performance  
+- 🧠 **Fully Typed** with TypeScript  
+- 🌈 **Responsive Design** with custom CSS  
+- 🔒 **Accessible** and semantic HTML structure  
+- ✨ **SEO Optimized** using SSR and Dynamic Metadata
+
+---
+
+## 📦 Tech Stack
+
+- **Next.js 14 (App Router + SSR)**
+- **Zustand** for Global State Management
+- **TMDb API** for movie data
+- **Framer Motion** for animations
+- **Sonner** for toast notifications
+- **Vercel** for deployment
+- **TypeScript** for type safety
+
+---
+
+## 📁 Folder Structure
+
+```
+.
+├── app/
+│   ├── page.tsx                 # Homepage
+│   ├── movies/page.tsx          # Movies Listing
+│   ├── movie/[id]/page.tsx      # Movie Details Page
+│   ├── favorites/page.tsx       # Favorite Movies Page
+├── components/
+│   ├── Card.tsx                 # Movie Card with hover logic
+├── store/
+│   ├── favoriteContext.ts       # Zustand favorite store
+│   ├── searchContext.ts         # Zustand search store
+├── styles/                      # Custom CSS files
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Installation & Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Clone the repository:
 
-## Learn More
+```bash
+git clone https://github.com/your-username/mini-movie-app.git
+cd mini-movie-app
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Install dependencies:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+bun install   # or npm install / yarn install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Create `.env.local` file:
 
-## Deploy on Vercel
+```env
+NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+NEXT_PUBLIC_TMDB_API_URL=https://api.themoviedb.org/3
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4. Run development server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+bun dev   # or npm run dev / yarn dev
+```
+
+### 5. Open in Browser:
+
+```
+http://localhost:3000
+```
+
+---
+
+## ✅ Roadmap
+
+- [✓] Trailer embedding on details page  
+- [✓] Framer motion transitions  
+- [✓] Zustand devtools integration  
+- [x] Theme switcher (light/dark mode)  
+- [x] Advanced filtering & genre sorting  
+- [x] Pagination or infinite scroll
+
+---
+
+## 🔒 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🙌 Credits
+
+- Movie data powered by [The Movie Database (TMDb)](https://www.themoviedb.org/)
+- Icons from custom SVG & [Lucide](https://lucide.dev)
+
+---
+
+> Built with 💻 by [Nour Hesham](https://github.com/Nour-2003)
