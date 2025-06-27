@@ -146,6 +146,23 @@
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+  .poster-container {
+    cursor: pointer;
+  }
+
+  .card-overlay {
+    pointer-events: auto;
+  }
+
+  .details-button {
+    background: rgba(0, 210, 255, 0.2);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    margin-top: 0.5rem;
+  }
+
+  .details-button:hover {
+    background: rgba(0, 210, 255, 0.3);
+  }
   .cinema-container {
     padding: 1.5rem;
   }
@@ -196,5 +213,19 @@
   .action-button {
     justify-content: center;
     padding: 0.5rem;
+  }
+}
+@media (min-width: 769px) {
+  .poster-link {
+    display: block;
+    height: 100%;
+  }
+
+  .card-overlay {
+    pointer-events: none;
+  }
+
+  .action-button {
+    pointer-events: auto;
   }
 }

@@ -50,7 +50,6 @@ export default function FavoritesPage() {
 
   return (
     <main className="favorites-page" aria-label="Favorites Page">
-      {/* Header (keep existing header code) */}
       <motion.header
         className="favorites-header"
         initial={{ opacity: 0, y: -20 }}
@@ -77,7 +76,20 @@ export default function FavoritesPage() {
             transition={{ duration: 0.8 }}
             aria-label="No favorites yet"
           >
-            {/* Keep empty state content */}
+            <div className="empty-illustration">
+              <HeartFilledIcon size={80} color="#ff3258" animated={false} />
+            </div>
+            <h2>Your heart is empty... for now</h2>
+            <p>Start adding movies to your favorites collection</p>
+            <motion.button
+              className="browse-button"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => (window.location.href = "/movies")}
+              aria-label="Browse movies"
+            >
+              Browse Movies
+            </motion.button>
           </motion.section>
         ) : (
           <motion.section

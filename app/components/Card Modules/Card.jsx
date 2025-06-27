@@ -16,7 +16,18 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
   const [trailerKey, setTrailerKey] = useState(null);
   const [isLoadingTrailer, setIsLoadingTrailer] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const cardRef = useRef(null);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
 
   // Intersection Observer for lazy loading
   useEffect(() => {
@@ -44,7 +55,6 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
       }
     };
   }, []);
-
 
   useEffect(() => {
     if (!isInView) return;
@@ -78,30 +88,40 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
       toast.error("Trailer not available.");
     }
   };
+
+  const handleCardClick = (e) => {
+    if (isMobile) {
+      e.preventDefault();
+      setIsActive(!isActive);
+    }
+  };
+
+  const handleDetailsNavigation = () => {
+    if (!isMobile || !isActive) {
+      window.location.href = `/movie/${movie.id}`;
+    }
+  };
+
   const handleFavoriteClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     onFavoriteToggle(movie);
   };
 
- return (
-    <div className="poster-container" ref={cardRef}>
+  return (
+    <div
+      className="poster-container"
+      ref={cardRef}
+      onClick={isMobile ? handleCardClick : undefined}
+    >
       {isInView ? (
         <>
-          <Link 
-            href={`/movie/${movie.id}`} 
-            className="poster-link"
-            onClick={(e) => {
-              if (
-                e.target &&
-                typeof e.target.closest === "function" &&
-                e.target.closest(".action-button")
-              ) {
-                e.preventDefault();
-              }
-            }}
-          >
-            <div className="poster-wrapper">
+          <div className="poster-wrapper">
+            <Link
+              href={`/movie/${movie.id}`}
+              className="poster-link"
+              onClick={handleDetailsNavigation}
+            >
               {movie.poster_path ? (
                 <img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -125,11 +145,11 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
               >
                 {movie.vote_average?.toFixed(1) ?? "N/A"}
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
 
           <AnimatePresence>
-            {isHovered === movie.id && (
+            {(isHovered === movie.id || (isMobile && isActive)) && (
               <div className="card-overlay">
                 <motion.div
                   className="overlay-content"
@@ -165,6 +185,16 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
                         </>
                       )}
                     </button>
+                    {isMobile && (
+                      <button
+                        className="action-button details-button"
+                        onClick={() =>
+                          (window.location.href = `/movie/${movie.id}`)
+                        }
+                      >
+                        View Details
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               </div>
