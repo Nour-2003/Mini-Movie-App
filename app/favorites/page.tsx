@@ -111,42 +111,40 @@ export default function FavoritesPage() {
                   onClick={() => toggleCardActive(movie.id)}
                 >
                   <div className="poster-container">
-                    <Link href={`/movie/${movie.id}`} className="poster-link">
-                      <div className="poster-wrapper">
-                        {movie.poster_path ? (
-                          <Image
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            alt={movie.title}
-                            width={300}
-                            height={450}
-                            className="movie-poster"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div
-                            className="poster-placeholder"
-                            aria-label="No poster available"
-                          >
-                            <FilmIcon />
-                          </div>
-                        )}
-
+                    <div className="poster-wrapper">
+                      {movie.poster_path ? (
+                        <Image
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          alt={movie.title}
+                          width={300}
+                          height={450}
+                          className="movie-poster"
+                          loading="lazy"
+                        />
+                      ) : (
                         <div
-                          className={`rating-badge ${
-                            movie.vote_average > 7
-                              ? "high-rating"
-                              : movie.vote_average > 5
-                              ? "medium-rating"
-                              : "low-rating"
-                          }`}
-                          aria-label={`Rating: ${movie.vote_average.toFixed(
-                            1
-                          )} out of 10`}
+                          className="poster-placeholder"
+                          aria-label="No poster available"
                         >
-                          {movie.vote_average.toFixed(1)}
+                          <FilmIcon />
                         </div>
+                      )}
+
+                      <div
+                        className={`rating-badge ${
+                          movie.vote_average > 7
+                            ? "high-rating"
+                            : movie.vote_average > 5
+                            ? "medium-rating"
+                            : "low-rating"
+                        }`}
+                        aria-label={`Rating: ${movie.vote_average.toFixed(
+                          1
+                        )} out of 10`}
+                      >
+                        {movie.vote_average.toFixed(1)}
                       </div>
-                    </Link>
+                    </div>
 
                     <div
                       className={`card-favorite-overlay ${
