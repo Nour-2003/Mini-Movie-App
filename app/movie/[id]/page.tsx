@@ -15,8 +15,11 @@ import {
   CastIcon,
   CastPlaceHolder,
 } from "@/app/Icons/icons";
-import { Movie, Credits, Video } from "../../store/interfaces";
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const movie = await fetchMovie(id);
 
@@ -41,7 +44,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 export default async function MovieDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   // First destructure params
   const { id } = await params;
