@@ -29,7 +29,7 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
     window.addEventListener("resize", checkIfMobile);
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
-  
+
   // Intersection Observer for lazy loading
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -63,9 +63,7 @@ export function Card({ movie, isHovered, onFavoriteToggle, isFavorite }) {
     async function fetchTrailer() {
       try {
         setIsLoadingTrailer(true);
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_TMDB_API_URL}/movie/${movie.id}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
-        );
+        const res = await fetch(`/api/videos?id=${movie.id}`);
         const data = await res.json();
         const trailer = data.results[0];
         setTrailerKey(trailer?.key || null);

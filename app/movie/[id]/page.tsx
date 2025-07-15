@@ -40,33 +40,30 @@ export async function generateMetadata({
     },
   };
 }
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-async function fetchMovie(id: string): Promise<Movie | null> {
-  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`,
-    { next: { revalidate: 86400 } }
-  );
+export async function fetchMovie(id: string): Promise<Movie | null> {
+  const res = await fetch(`${baseUrl}/api/movie?id=${id}`, {
+    next: { revalidate: 86400 },
+  });
   if (!res.ok) return null;
   return res.json();
 }
 
-async function fetchCredits(id: string): Promise<Credits | null> {
-  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`,
-    { next: { revalidate: 86400 } }
-  );
+export async function fetchCredits(id: string): Promise<Credits | null> {
+  const res = await fetch(`${baseUrl}/api/credits?id=${id}`, {
+    next: { revalidate: 86400 },
+  });
   if (!res.ok) return null;
   return res.json();
 }
 
-async function fetchVideos(id: string): Promise<{ results: Video[] } | null> {
-  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}`,
-    { next: { revalidate: 86400 } }
-  );
+export async function fetchVideos(
+  id: string
+): Promise<{ results: Video[] } | null> {
+  const res = await fetch(`${baseUrl}/api/videos?id=${id}`, {
+    next: { revalidate: 86400 },
+  });
   if (!res.ok) return null;
   return res.json();
 }
