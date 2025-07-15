@@ -2,6 +2,7 @@
 import "../../styles/MovieDetails.css";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { fetchMovie, fetchCredits, fetchVideos } from "../../lib/api/movie";
 import {
   MovieIcon,
   DateIcon,
@@ -40,33 +41,33 @@ export async function generateMetadata({
     },
   };
 }
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+// const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-export async function fetchMovie(id: string): Promise<Movie | null> {
-  const res = await fetch(`${baseUrl}/api/movie?id=${id}`, {
-    next: { revalidate: 86400 },
-  });
-  if (!res.ok) return null;
-  return res.json();
-}
+// export async function fetchMovie(id: string): Promise<Movie | null> {
+//   const res = await fetch(`${baseUrl}/api/movie?id=${id}`, {
+//     next: { revalidate: 86400 },
+//   });
+//   if (!res.ok) return null;
+//   return res.json();
+// }
 
-export async function fetchCredits(id: string): Promise<Credits | null> {
-  const res = await fetch(`${baseUrl}/api/credits?id=${id}`, {
-    next: { revalidate: 86400 },
-  });
-  if (!res.ok) return null;
-  return res.json();
-}
+// export async function fetchCredits(id: string): Promise<Credits | null> {
+//   const res = await fetch(`${baseUrl}/api/credits?id=${id}`, {
+//     next: { revalidate: 86400 },
+//   });
+//   if (!res.ok) return null;
+//   return res.json();
+// }
 
-export async function fetchVideos(
-  id: string
-): Promise<{ results: Video[] } | null> {
-  const res = await fetch(`${baseUrl}/api/videos?id=${id}`, {
-    next: { revalidate: 86400 },
-  });
-  if (!res.ok) return null;
-  return res.json();
-}
+// export async function fetchVideos(
+//   id: string
+// ): Promise<{ results: Video[] } | null> {
+//   const res = await fetch(`${baseUrl}/api/videos?id=${id}`, {
+//     next: { revalidate: 86400 },
+//   });
+//   if (!res.ok) return null;
+//   return res.json();
+// }
 
 export default async function MovieDetailsPage({
   params,
